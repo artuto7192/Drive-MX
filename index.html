@@ -88,8 +88,9 @@
 
                 const unsubOps = fbase.onSnapshot(opCol, (s) => {
                     const l = []; s.forEach(d => l.push(d.data()));
-                    if (!l.find(x => x.id === 'admin')) {
-                        l.push({ id: 'admin', pass: 'admin123', name: 'Administrador', role: 'admin' });
+                    // NUEVOS ACCESOS CONFIGURADOS AQUÍ
+                    if (!l.find(x => x.id === 'admin central')) {
+                        l.push({ id: 'admin central', pass: 'arturo9271', name: 'Admin Central', role: 'admin' });
                     }
                     setOps(l);
                 });
@@ -108,7 +109,7 @@
             };
 
             const deleteOp = async (id) => {
-                if(id === 'admin') return;
+                if(id === 'admin central') return; // Evita borrar al admin principal
                 const db = fbase.getFirestore();
                 await fbase.deleteDoc(fbase.doc(db, 'artifacts', appId, 'public', 'data', 'operators', id));
             };
@@ -198,8 +199,8 @@
                         {view === 'admin' && (
                             <div className="w-full max-w-5xl space-y-8 animate-slide">
                                 <div className="flex justify-between items-end">
-                                    <div><h1 className="text-3xl font-black">Panel <span className="text-red-500">Admin</span></h1><p className="text-[10px] font-bold text-slate-400 uppercase">Centro de Control de Logística</p></div>
-                                    <button onClick={() => setShowStaffModal(true)} className="btn-primary">Registrar Nuevo Operador</button>
+                                    <div><h1 className="text-3xl font-black">Panel <span className="text-red-500">Admin</span></h1><p className="text-[10px] font-bold text-slate-400 uppercase">Gestión Central</p></div>
+                                    <button onClick={() => setShowStaffModal(true)} className="btn-primary">Registrar Operador</button>
                                 </div>
                                 
                                 <div className="grid md:grid-cols-3 gap-8">
@@ -238,13 +239,13 @@
 
                                         <div className="card-glass overflow-hidden">
                                             <div className="bg-slate-50 border-b border-slate-100 px-6 py-4">
-                                                <h2 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Registro de Operadores</h2>
+                                                <h2 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Operadores Registrados</h2>
                                             </div>
                                             <table className="w-full text-left">
                                                 <thead className="bg-white border-b border-slate-50">
                                                     <tr className="text-[8px] font-black uppercase text-slate-400">
                                                         <th className="px-6 py-3">Nombre</th>
-                                                        <th className="px-6 py-3">ID Acceso</th>
+                                                        <th className="px-6 py-3">Usuario</th>
                                                         <th className="px-6 py-3 text-right">Acción</th>
                                                     </tr>
                                                 </thead>
@@ -266,7 +267,7 @@
 
                         {view === 'operator' && (
                             <div className="w-full max-w-xl space-y-8 animate-slide">
-                                <div><h1 className="text-3xl font-black uppercase tracking-tight">Mis <span className="text-red-500">Asignaciones</span></h1><p className="text-[10px] font-bold text-slate-400 uppercase">Gestión de Ruta</p></div>
+                                <div><h1 className="text-3xl font-black uppercase tracking-tight">Mis <span className="text-red-500">Asignaciones</span></h1><p className="text-[10px] font-bold text-slate-400 uppercase">Ruta Activa</p></div>
                                 <div className="space-y-4">
                                     {pkgs.filter(p => p.op === sessionUser.id).map(p => (
                                         <div key={p.id} className="card-glass p-6 space-y-6">
